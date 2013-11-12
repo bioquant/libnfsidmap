@@ -10,8 +10,13 @@ GUMS_MAPPING_LIB = gums.la
 else
 GUMS_MAPPING_LIB =
 endif
+if ENABLE_WINBIND
+WINBIND_LIB = winbind.la
+else
+WINBIND_LIB =
+endif
 lib_LTLIBRARIES = libnfsidmap.la
-pkglib_LTLIBRARIES = nsswitch.la static.la $(UMICH_LDAP_LIB) $(GUMS_MAPPING_LIB)
+pkglib_LTLIBRARIES = nsswitch.la static.la $(UMICH_LDAP_LIB) $(GUMS_MAPPING_LIB) $(WINBIND_LIB)
 
 # Library versioning notes from:
 #  http://sources.redhat.com/autobook/autobook/autobook_91.html
@@ -41,6 +46,10 @@ umich_ldap_la_LIBADD = -lldap
 
 gums_la_SOURCES = gums.c
 gums_la_LDFLAGS = -module -avoid-version
+
+winbind_la_SOURCES = winbind.c
+winbind_la_LDFLAGS = -module -avoid-version
+winbind_la_LIBADD = -lwbclient
 
 man3_MANS = nfs4_uid_to_name.3
 man5_MANS	= idmapd.conf.5
